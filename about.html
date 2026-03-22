@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政治家マップとは | 国会議員の発言を検索できる無料サービス</title>
+<meta name="description" content="政治家マップは、国立国会図書館の国会会議録APIを活用し、国会議員の発言をキーワードや発言者名で検索できる無料のWebサービスです。特定の政治的立場を持たず、一次情報のみを中立的に提供します。">
+<meta name="keywords" content="政治家マップ,国会議員,発言検索,国会会議録,政治情報,中立,無料">
+<link rel="canonical" href="https://seijika-map.github.io/seijika-map/about.html">
+<meta property="og:title" content="政治家マップとは | 国会議員の発言を検索できる無料サービス">
+<meta property="og:description" content="国会議員の発言を国会会議録から検索できる無料サービス。中立・一次ソースのみを提供します。">
+<meta property="og:url" content="https://seijika-map.github.io/seijika-map/about.html">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap');
+:root{--bg:#0d0d0f;--surface:#141418;--surface2:#1c1c22;--border:#2a2a35;--accent:#c8a96e;--accent2:#7eb8c9;--text:#e8e6e0;--muted:#7a7870}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;line-height:1.8}
+header{background:rgba(13,13,15,.97);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:var(--accent);text-decoration:none}
+nav{display:flex;gap:24px}
+nav a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+nav a:hover{color:var(--accent)}
+nav a.active{color:var(--accent)}
+.hero{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border);padding:64px 24px;text-align:center}
+.hero h1{font-family:'Noto Serif JP',serif;font-size:36px;font-weight:700;color:var(--accent);margin-bottom:16px;line-height:1.4}
+.hero p{font-size:16px;color:var(--muted);max-width:600px;margin:0 auto 32px;line-height:1.9}
+.btn{display:inline-block;background:var(--accent);color:var(--bg);padding:12px 32px;border-radius:4px;text-decoration:none;font-weight:600;font-size:14px;transition:opacity .2s}
+.btn:hover{opacity:.84}
+.container{max-width:800px;margin:0 auto;padding:48px 24px}
+.section{margin-bottom:56px}
+.section h2{font-family:'Noto Serif JP',serif;font-size:24px;font-weight:700;color:var(--accent);margin-bottom:20px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.section p{color:var(--muted);margin-bottom:16px;font-size:14px;line-height:1.9}
+.section ul{padding-left:20px;margin-bottom:16px}
+.section li{color:var(--muted);font-size:14px;line-height:2;margin-bottom:4px}
+.section li::marker{color:var(--accent)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px}
+.card-icon{font-size:32px;margin-bottom:12px}
+.card h3{font-family:'Noto Serif JP',serif;font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px}
+.card p{font-size:12px;color:var(--muted);line-height:1.8}
+.source-table{width:100%;border-collapse:collapse;margin-top:16px}
+.source-table th{background:var(--surface2);color:var(--accent);font-size:12px;padding:10px 14px;text-align:left;border:1px solid var(--border)}
+.source-table td{font-size:13px;color:var(--muted);padding:10px 14px;border:1px solid var(--border);line-height:1.7}
+.source-table tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.faq-item{border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden}
+.faq-q{padding:16px 20px;background:var(--surface);font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{background:var(--surface2)}
+.faq-a{padding:16px 20px;font-size:13px;color:var(--muted);line-height:1.9;border-top:1px solid var(--border)}
+.timeline{position:relative;padding-left:24px}
+.timeline::before{content:'';position:absolute;left:6px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:28px}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--accent);position:absolute;left:-21px;top:4px;border:2px solid var(--bg)}
+.tl-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:4px}
+.tl-text{font-size:13px;color:var(--muted);line-height:1.8}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px;text-align:center}
+footer p{font-size:12px;color:var(--muted);margin-bottom:8px}
+footer a{color:var(--accent2);text-decoration:none;margin:0 8px;font-size:12px}
+@media(max-width:600px){.hero h1{font-size:24px}nav{gap:12px}}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">政治家マップ</a>
+  <nav>
+    <a href="index.html">検索</a>
+    <a href="about.html" class="active">サービスについて</a>
+    <a href="privacy.html">プライバシー</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>政治家マップとは</h1>
+  <p>国会議員の発言を、国会会議録（国立国会図書館）から誰でも無料で検索できるWebサービスです。特定の政治的立場を持たず、一次情報のみを中立的に提供します。</p>
+  <a href="index.html" class="btn">今すぐ検索する</a>
+</div>
+
+<div class="container">
+
+  <!-- サービスの特徴 -->
+  <div class="section">
+    <h2>サービスの特徴</h2>
+    <p>政治家マップは、日本の国会議員が国会で行った発言を簡単に検索・確認できるサービスです。難しい操作は一切不要。検索ボックスに議員名やキーワードを入力するだけで、実際の国会発言をすぐに確認できます。</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>発言者名で検索</h3>
+        <p>「石破」「岸田」など苗字だけでもOK。同姓の議員が複数いる場合は一覧から選択できます。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>キーワードで横断検索</h3>
+        <p>「増税」「防衛費」などのキーワードで全議員の発言を横断検索。誰が何を発言したか一目でわかります。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>発言の可視化</h3>
+        <p>ワードクラウドで発言傾向を、一貫性スコアで過去発言との整合性を数値化して表示します。</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏛</div>
+        <h3>一次ソースへのリンク</h3>
+        <p>すべての発言に国会会議録へのリンクを付記。原文を直接確認できます。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- データソース -->
+  <div class="section">
+    <h2>データソースについて</h2>
+    <p>政治家マップが表示するすべての発言データは、国立国会図書館が公開している「国会会議録検索システムAPI」から取得しています。編集・改変は一切行っておらず、原文のまま表示しています。</p>
+    <table class="source-table">
+      <tr>
+        <th>データソース</th>
+        <th>提供機関</th>
+        <th>更新頻度</th>
+      </tr>
+      <tr>
+        <td>国会会議録</td>
+        <td>国立国会図書館</td>
+        <td>会議開催後数日以内</td>
+      </tr>
+      <tr>
+        <td>衆議院本会議・委員会</td>
+        <td>衆議院</td>
+        <td>随時</td>
+      </tr>
+      <tr>
+        <td>参議院本会議・委員会</td>
+        <td>参議院</td>
+        <td>随時</td>
+      </tr>
+    </table>
+    <p style="margin-top:16px">著作権法第13条により、国会における演説・討論・議事の記録は著作権の保護対象外です。これらの情報を整理・提供することは法的に適法です。</p>
+  </div>
+
+  <!-- 中立性について -->
+  <div class="section">
+    <h2>政治的中立性について</h2>
+    <p>政治家マップは、特定の政党・政治家・政治的立場を支持・批判することを目的としたサービスではありません。以下の原則に基づき、中立性を担保しています。</p>
+    <ul>
+      <li>全政党・全議員を均等に掲載（特定政党の優遇なし）</li>
+      <li>発言への編集コメント・評価・批評は一切なし</li>
+      <li>掲載順は五十音順または発言日時順のみ（運営者の恣意を排除）</li>
+      <li>データソースは国立国会図書館の公式APIのみ使用</li>
+      <li>AIによるデータ検証を実施し、事実誤認の排除に努めている</li>
+    </ul>
+  </div>
+
+  <!-- よくある質問 -->
+  <div class="section">
+    <h2>よくある質問</h2>
+    <div class="faq-item">
+      <div class="faq-q">無料で使えますか？</div>
+      <div class="faq-a">はい、基本的な発言検索・閲覧機能はすべて無料でご利用いただけます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">どの議員の発言が検索できますか？</div>
+      <div class="faq-a">国会会議録に記録されているすべての国会議員の発言が検索対象です。現職・元職問わず、国会会議録に記録がある議員の発言を確認できます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">発言データはリアルタイムで更新されますか？</div>
+      <div class="faq-a">国立国会図書館の国会会議録APIをリアルタイムで参照しているため、会議録が公開され次第（通常、会議から数日以内）検索できるようになります。自動更新機能を使うと、一定間隔で最新データを自動取得できます。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">発言内容は正確ですか？</div>
+      <div class="faq-a">国立国会図書館が公式に公開している国会会議録をそのまま表示しています。編集・改変は一切行っていません。ただし、会議録自体の誤字・速記ミスが含まれる場合があります。正確な原文は各発言カードの「国会会議録 ↗」リンクからご確認ください。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">このサービスは政府や政党と関係がありますか？</div>
+      <div class="faq-a">いいえ。政治家マップは、日本の政府機関・政党・公的機関とは一切関係のない、独立した個人が開発・運営する民間サービスです。</div>
+    </div>
+  </div>
+
+  <!-- 更新履歴 -->
+  <div class="section">
+    <h2>更新履歴</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026.03</div>
+        <div class="tl-text">正式公開。発言者名検索・キーワード横断検索・ワードクラウド・一貫性スコア機能を実装。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026.03</div>
+        <div class="tl-text">自動更新機能・免責事項・Cookie同意バナーを追加。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026.03</div>
+        <div class="tl-text">Google Search Console登録・サイトマップ送信完了。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2026 政治家マップ — 独立した個人による民間サービス</p>
+  <div style="margin-top:8px">
+    <a href="index.html">トップ</a>
+    <a href="about.html">サービスについて</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+  </div>
+</footer>
+
+</body>
+</html>

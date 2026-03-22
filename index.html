@@ -253,9 +253,15 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.95);backdrop-
     <span class="logo-ja">政治家マップ</span>
     <span class="logo-en">SEIJIKA MAP</span>
   </div>
-  <div class="api-pill">
-    <div class="api-dot" id="apiDot"></div>
-    <span id="apiTxt">国会会議録API</span>
+  <div style="display:flex;align-items:center;gap:20px">
+    <nav style="display:flex;gap:16px">
+      <a href="about.html" style="font-size:11px;color:var(--muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">サービスについて</a>
+      <a href="privacy.html" style="font-size:11px;color:var(--muted);text-decoration:none;transition:color .2s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">プライバシー</a>
+    </nav>
+    <div class="api-pill">
+      <div class="api-dot" id="apiDot"></div>
+      <span id="apiTxt">国会会議録API</span>
+    </div>
   </div>
 </header>
 
