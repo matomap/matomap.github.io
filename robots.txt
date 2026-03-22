@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# サイトマップの場所をクローラーに通知
+Sitemap: https://YOUR-USERNAME.github.io/seijika-map/sitemap.xml

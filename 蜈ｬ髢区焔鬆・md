@@ -1,0 +1,126 @@
+# 政治家マップ — GitHub Pages 公開手順
+# 所要時間：約20分　費用：無料
+
+## 完成後のURL
+https://あなたのユーザー名.github.io/seijika-map/
+
+---
+
+## STEP 1｜GitHubアカウントを作る（5分）
+
+1. ブラウザで https://github.com を開く
+2. 右上の「Sign up」をクリック
+3. メールアドレス・パスワード・ユーザー名を入力
+   ※ユーザー名は公開URLの一部になります（例：tanaka → tanaka.github.io）
+4. メール認証を完了させる
+
+---
+
+## STEP 2｜リポジトリを作る（3分）
+
+1. GitHubにログイン後、右上の「＋」→「New repository」
+2. 以下を入力：
+   - Repository name: seijika-map
+   - Description: 政治家の発言を国会会議録から検索するWebサービス
+   - Public（公開）を選択 ← 重要
+   - 「Add a README file」にチェック
+3. 「Create repository」をクリック
+
+---
+
+## STEP 3｜ファイルをアップロードする（5分）
+
+1. 作成したリポジトリのページで「Add file」→「Upload files」
+2. 以下のファイルを全部ドラッグ&ドロップ：
+   - index.html
+   - sitemap.xml
+   - robots.txt
+   - favicon.svg
+   - ogp.svg
+3. 下部の「Commit changes」をクリック
+
+---
+
+## STEP 4｜GitHub Pages を有効にする（2分）
+
+1. リポジトリの「Settings」タブをクリック
+2. 左メニューの「Pages」をクリック
+3. Source を「Deploy from a branch」に設定
+4. Branch を「main」、フォルダを「/(root)」に設定
+5. 「Save」をクリック
+6. 数分待つと「Your site is live at https://...」と表示される
+
+---
+
+## STEP 5｜URLをindex.htmlに反映する（2分）
+
+公開URLが確定したら、index.html 内の
+「YOUR-USERNAME」を自分のGitHubユーザー名に変更：
+
+変更箇所（5か所）：
+  https://YOUR-USERNAME.github.io/seijika-map/
+↓
+  https://tanaka.github.io/seijika-map/  ← 実際のユーザー名
+
+変更後、再度アップロード（上書き）
+
+---
+
+## STEP 6｜Google Search Console に登録（10分）
+
+検索エンジンに早く認識してもらうための登録です。
+
+1. https://search.google.com/search-console を開く
+2. Googleアカウントでログイン
+3. 「URLプレフィックス」に公開URLを入力
+   例: https://tanaka.github.io/seijika-map/
+4. 「HTMLタグ」で確認コード（content="..."の値）をコピー
+5. index.html の以下の行のコメントを外してコードを貼る：
+   <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE"> -->
+   ↓
+   <meta name="google-site-verification" content="xxxxx_実際のコード_xxxxx">
+6. ファイルを再アップロード後、Search Consoleで「確認」をクリック
+7. 「サイトマップ」→ sitemap.xml を送信
+
+---
+
+## STEP 7｜Google に検索してもらう（待つだけ）
+
+サイトマップ送信後、Googleがクロールするまで：
+- 早い場合：数日〜1週間
+- 通常：2〜4週間
+
+「政治家 発言 検索」などで徐々に表示されるようになります。
+
+---
+
+## SEO対策の内容（index.htmlに設定済み）
+
+| 項目 | 内容 |
+|------|------|
+| titleタグ | 政治家マップ — 国会議員の発言・政策をリアルタイム検索 |
+| descriptionメタ | 240文字の検索結果説明文 |
+| keywordsメタ | 政治家・発言・議員・石破茂など主要キーワード |
+| OGP（og:）| SNSシェア時のカード表示 |
+| Twitter Card | Twitter/Xシェア時の大型画像カード |
+| JSON-LD構造化データ | WebApplicationとしてGoogleに認識させる |
+| sitemap.xml | クローラーへのページ通知 |
+| robots.txt | クローラーへのアクセス許可 |
+| favicon | ブラウザタブのアイコン |
+
+---
+
+## 独自ドメインを取得する場合（オプション）
+
+「seijika-map.jp」などのドメインを取りたい場合：
+
+1. さくらインターネット（https://www.sakura.ne.jp）または
+   お名前.com（https://www.onamae.com）でドメイン取得
+   費用：年額1,000〜3,000円程度
+
+2. GitHub Pages の Custom domain 設定欄にドメインを入力
+
+3. ドメイン管理会社のDNS設定でCNAMEレコードを追加：
+   CNAME: www → あなたのユーザー名.github.io
+
+設定後、sitemap.xml・index.html内のURLをドメインに変更
