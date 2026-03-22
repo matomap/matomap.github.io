@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: https://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東京都議会マップ — 都議会議員の発言・会議録を検索</title>
+<meta name="description" content="東京都議会議員の発言を会議録から検索できる無料サービス。キーワード・議員名・会議名・期間で絞り込み。東京都議会公式会議録へ直接リンク。築地・オリンピック・少子化など気になるテーマで都議の発言を確認できます。">
+<meta name="keywords" content="東京都議会,都議会議員,発言,会議録,検索,東京都,地方議会,都議,小池百合子,築地,オリンピック,少子化,予算,都政">
+<link rel="canonical" href="https://minna-map.github.io/tokyo/">
+<meta property="og:title" content="東京都議会マップ — 都議会議員の発言を検索">
+<meta property="og:description" content="東京都議会の会議録をキーワード・議員名で検索。都議の発言を中立的に可視化する無料サービス。">
+<meta property="og:url" content="https://minna-map.github.io/tokyo/">
+<meta property="og:type" content="website">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "東京都議会マップ",
+  "url": "https://minna-map.github.io/tokyo/",
+  "description": "東京都議会議員の発言を会議録から検索できる無料Webサービス",
+  "applicationCategory": "NewsApplication",
+  "inLanguage": "ja",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}
+}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap');
+:root{--bg:#0d0d0f;--surface:#141418;--surface2:#1c1c22;--border:#2a2a35;--accent:#7eb8c9;--accent2:#c8a96e;--text:#e8e6e0;--muted:#7a7870;--red:#c94f4f;--green:#5ea87a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh}
+
+header{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo-wrap{display:flex;align-items:center;gap:16px}
+.brand{font-family:'Noto Serif JP',serif;font-size:13px;color:var(--muted);text-decoration:none}
+.brand:hover{color:var(--accent2)}
+.logo{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:700;color:var(--accent);letter-spacing:.05em}
+nav a{font-size:11px;color:var(--muted);text-decoration:none;margin-left:16px}
+nav a:hover{color:var(--accent)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0d1418 0%,#0d0f14 100%);border-bottom:1px solid var(--border);padding:28px 20px 20px}
+.hero-top{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px}
+.hero-icon{width:52px;height:52px;border-radius:50%;background:var(--surface2);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hero-title{font-family:'Noto Serif JP',serif;font-size:22px;font-weight:700;color:var(--accent)}
+.hero-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.7}
+.stats-row{display:flex;gap:16px;flex-wrap:wrap}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 16px;text-align:center;flex:1;min-width:100px}
+.stat-num{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--accent)}
+.stat-lbl{font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.08em}
+
+/* SEARCH */
+.search-area{background:var(--surface2);border-bottom:1px solid var(--border);padding:12px 20px}
+.search-tabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.stab{padding:5px 14px;border-radius:20px;border:1px solid var(--border);font-size:11px;color:var(--muted);cursor:pointer;transition:all .18s;user-select:none;white-space:nowrap}
+.stab:hover{border-color:var(--accent);color:var(--text)}
+.stab.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:600}
+.search-row{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}
+.inp-group{flex:1;min-width:200px}
+.inp-label{font-size:10px;color:var(--muted);margin-bottom:4px;letter-spacing:.06em}
+.inp-wrap{position:relative}
+.inp-wrap input,.inp-wrap select{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px 9px 36px;font-family:'Noto Sans JP',sans-serif;font-size:13px;border-radius:4px;outline:none;transition:border-color .2s}
+.inp-wrap select{padding-left:12px;cursor:pointer}
+.inp-wrap input:focus,.inp-wrap select:focus{border-color:var(--accent)}
+.inp-wrap input::placeholder{color:var(--muted)}
+.inp-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);pointer-events:none}
+.btn{background:var(--accent);color:var(--bg);border:none;padding:9px 20px;font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:600;border-radius:4px;cursor:pointer;transition:opacity .2s;white-space:nowrap;align-self:flex-end;margin-bottom:0}
+.btn:hover{opacity:.84}
+.hint{font-size:10px;color:var(--muted);margin-top:6px}
+
+/* MAIN */
+.main{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 240px)}
+@media(max-width:768px){.main{grid-template-columns:1fr}.sidebar{display:none}}
+
+/* SIDEBAR */
+.sidebar{border-right:1px solid var(--border);overflow-y:auto;max-height:calc(100vh - 240px)}
+.sec-lbl{padding:10px 14px 5px;font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.mem-item{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;border-bottom:1px solid rgba(42,42,53,.4);border-left:2px solid transparent;transition:background .15s}
+.mem-item:hover{background:var(--surface2)}
+.mem-item.active{background:var(--surface2);border-left-color:var(--accent)}
+.av{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif JP',serif;font-size:12px;flex-shrink:0}
+.mem-name{font-family:'Noto Serif JP',serif;font-size:12px;font-weight:600}
+.mem-party{font-size:10px;color:var(--muted)}
+.pdot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:1px}
+
+/* CENTER */
+.center{overflow-y:auto;max-height:calc(100vh - 240px)}
+.result-header{padding:14px 20px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.result-count{font-size:12px;color:var(--muted)}
+.result-count span{color:var(--accent);font-weight:600}
+.ext-link{font-size:11px;color:var(--accent2);text-decoration:none;display:flex;align-items:center;gap:4px}
+.ext-link:hover{opacity:.7}
+
+/* CARDS */
+.card-section{padding:14px 18px}
+.sec-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:9px;animation:fadeIn .3s ease both;transition:border-color .2s}
+.qcard:hover{border-color:rgba(126,184,201,.4)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.qcard-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.qcard-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.qcard-name{font-family:'Noto Serif JP',serif;font-size:13px;font-weight:600}
+.qcard-party{font-size:10px;color:var(--muted)}
+.qcard-date{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-left:auto}
+.qcard-meeting{font-size:10px;color:var(--muted);margin-bottom:6px}
+.qcard-text{font-family:'Noto Serif JP',serif;font-size:13px;line-height:1.85;color:var(--text)}
+.hl{background:rgba(126,184,201,.2);color:var(--accent);font-weight:700;border-radius:2px;padding:0 1px}
+.kw-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.kw{background:rgba(200,169,110,.1);border:1px solid rgba(200,169,110,.2);color:var(--accent2);font-size:9px;padding:2px 6px;border-radius:3px}
+.qcard-footer{display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-top:8px;border-top:1px solid var(--border)}
+.qcard-link{font-size:10px;color:var(--accent);text-decoration:none}
+.qcard-link:hover{opacity:.7}
+
+/* STATE */
+.state{padding:50px 20px;text-align:center}
+.state-icon{font-size:36px;margin-bottom:12px;opacity:.45}
+.state-txt{font-size:13px;color:var(--muted);line-height:1.8}
+.spinner{display:inline-block;width:26px;height:26px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MEETING LINKS */
+.meeting-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;padding:14px 18px}
+.meeting-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px;text-decoration:none;transition:border-color .2s,background .15s;display:block}
+.meeting-card:hover{border-color:var(--accent);background:var(--surface2)}
+.meeting-name{font-size:12px;color:var(--text);font-weight:500;margin-bottom:4px}
+.meeting-date{font-size:10px;color:var(--muted)}
+.meeting-arrow{font-size:10px;color:var(--accent);margin-top:6px;display:block}
+
+/* INFO BOX */
+.info-box{margin:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:14px}
+.info-title{font-size:11px;font-weight:600;color:var(--accent2);margin-bottom:8px}
+.info-txt{font-size:11px;color:var(--muted);line-height:1.8}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:20px;text-align:center}
+footer p{font-size:11px;color:var(--muted)}
+footer a{color:var(--accent);text-decoration:none;margin:0 8px;font-size:11px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <a href="../index.html" class="brand">みんなのマップ</a>
+    <span style="color:var(--border)">／</span>
+    <span class="logo">🗼 東京都議会マップ</span>
+  </div>
+  <nav>
+    <a href="../index.html">政治家マップ</a>
+    <a href="../about.html">について</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-top">
+    <div class="hero-icon">🗼</div>
+    <div>
+      <div class="hero-title">東京都議会マップ</div>
+      <div class="hero-sub">
+        東京都議会議員の発言を会議録から検索・確認できます。<br>
+        データソース：<a href="https://www.record.gikai.metro.tokyo.lg.jp/" target="_blank" style="color:var(--accent)">東京都議会 会議録検索システム（公式）</a>
+      </div>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">127</div><div class="stat-lbl">都議会議員定数</div></div>
+    <div class="stat"><div class="stat-num">11</div><div class="stat-lbl">常任委員会</div></div>
+    <div class="stat"><div class="stat-num">4回</div><div class="stat-lbl">年間定例会</div></div>
+    <div class="stat"><div class="stat-num">公式</div><div class="stat-lbl">一次ソース</div></div>
+  </div>
+</div>
+
+<!-- SEARCH -->
+<div class="search-area">
+  <div class="search-tabs">
+    <div class="stab active" onclick="setTab('keyword',this)">💬 キーワード検索</div>
+    <div class="stab" onclick="setTab('speaker',this)">👤 議員名検索</div>
+    <div class="stab" onclick="setTab('meeting',this)">🏛 会議名から探す</div>
+    <div class="stab" onclick="setTab('recent',this)">📅 最近の会議録</div>
+  </div>
+
+  <!-- キーワード検索 -->
+  <div id="tab-keyword">
+    <div class="search-row">
+      <div class="inp-group" style="flex:2">
+        <div class="inp-label">KEYWORD — 発言内容</div>
+        <div class="inp-wrap">
+          <span class="inp-icon">💬</span>
+          <input id="kwInp" placeholder="例：築地　少子化　オリンピック　予算" onkeydown="if(event.key==='Enter')doSearch()">
+        </div>
+      </div>
+      <div class="inp-group">
+        <div class="inp-label">SPEAKER — 議員名（任意）</div>
+        <div class="inp-wrap">
+          <span class="inp-icon">👤</span>
+          <input id="kwSpkInp" placeholder="例：小池　都議名" onkeydown="if(event.key==='Enter')doSearch()">
+        </div>
+      </div>
+      <button class="btn" onclick="doSearch()">検索</button>
+    </div>
+    <div class="hint">💡 スペース区切りで複数キーワード指定可。東京都議会公式サイトの検索結果を新しいタブで開きます。</div>
+  </div>
+
+  <!-- 議員名検索 -->
+  <div id="tab-speaker" style="display:none">
+    <div class="search-row">
+      <div class="inp-group">
+        <div class="inp-label">SPEAKER — 議員名</div>
+        <div class="inp-wrap">
+          <span class="inp-icon">👤</span>
+          <input id="spkInp" placeholder="例：小池　または　小池百合子" onkeydown="if(event.key==='Enter')doSpeakerSearch()">
+        </div>
+      </div>
+      <button class="btn" onclick="doSpeakerSearch()">議員の発言を検索</button>
+    </div>
+    <div class="hint">💡 東京都議会公式の議員名検索ページを開きます。</div>
+  </div>
+
+  <!-- 会議名 -->
+  <div id="tab-meeting" style="display:none">
+    <div class="search-row">
+      <div class="inp-group">
+        <div class="inp-label">MEETING — 委員会・会議名</div>
+        <div class="inp-wrap">
+          <select id="meetingSelect">
+            <option value="">会議名を選んでください</option>
+            <option value="本会議">本会議</option>
+            <option value="予算特別委員会">予算特別委員会</option>
+            <option value="総務委員会">総務委員会</option>
+            <option value="財政委員会">財政委員会</option>
+            <option value="文教委員会">文教委員会</option>
+            <option value="都市整備委員会">都市整備委員会</option>
+            <option value="厚生委員会">厚生委員会</option>
+            <option value="経済・港湾委員会">経済・港湾委員会</option>
+            <option value="環境・建設委員会">環境・建設委員会</option>
+            <option value="公営企業委員会">公営企業委員会</option>
+            <option value="警察・消防委員会">警察・消防委員会</option>
+            <option value="議会運営委員会">議会運営委員会</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" onclick="doMeetingSearch()">この委員会の会議録を開く</button>
+    </div>
+  </div>
+
+  <!-- 最近の会議録 -->
+  <div id="tab-recent" style="display:none">
+    <div class="hint" style="margin-bottom:8px">👇 クリックすると東京都議会公式サイトの会議録が開きます</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sec-lbl">注目の都議・検索例</div>
+    <div id="memberList"></div>
+
+    <div class="sec-lbl" style="margin-top:8px">注目キーワード</div>
+    <div id="kwList"></div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center" id="center">
+    <div class="info-box">
+      <div class="info-title">⚠️ 東京都議会マップについて</div>
+      <div class="info-txt">
+        東京都議会には国会会議録APIのような公開APIがないため、
+        検索ボタンを押すと<strong>東京都議会公式の会議録検索サイト</strong>が
+        新しいタブで開きます。<br><br>
+        発言データは東京都議会公式サイト（record.gikai.metro.tokyo.lg.jp）
+        が直接提供する一次情報です。
+      </div>
+    </div>
+
+    <div class="card-section">
+      <div class="sec-title">最近の会議録</div>
+      <div class="meeting-grid" id="recentMeetings"></div>
+    </div>
+
+    <div class="card-section" style="margin-top:8px">
+      <div class="sec-title">よく検索されるテーマ</div>
+      <div id="topicCards"></div>
+    </div>
+
+    <div class="state" style="padding:20px">
+      <div class="state-txt">
+        上の検索フォームにキーワードまたは議員名を入力して<br>「検索」を押してください。<br><br>
+        <small style="font-size:10px">東京都議会公式会議録検索システムへ遷移します</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSENT BANNER -->
+<div id="consentBanner" style="position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--surface2);border-top:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+  <div style="flex:1;font-size:11px;color:var(--muted);min-width:200px">
+    当サービスはCookieおよびGoogle AdSense広告を使用します。
+    <span style="color:var(--accent);cursor:pointer;text-decoration:underline" onclick="document.getElementById('discModal').style.display='flex'">詳細</span>
+  </div>
+  <div style="display:flex;gap:8px">
+    <button onclick="rejectConsent()" style="padding:6px 14px;font-size:11px;background:var(--surface);color:var(--muted);border:1px solid var(--border);border-radius:4px;cursor:pointer">最小限のみ</button>
+    <button onclick="acceptConsent()" style="padding:6px 14px;font-size:11px;background:var(--accent);color:var(--bg);border:none;border-radius:4px;cursor:pointer;font-weight:600">同意して続ける</button>
+  </div>
+</div>
+
+<!-- DISCLAIMER MODAL -->
+<div id="discModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:400;align-items:center;justify-content:center" onclick="if(event.target===this)this.style.display='none'">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;width:480px;max-width:95vw;max-height:80vh;overflow-y:auto;padding:24px;position:relative">
+    <button onclick="document.getElementById('discModal').style.display='none'" style="position:absolute;top:12px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer">✕</button>
+    <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:700;color:var(--accent);margin-bottom:14px">免責事項・プライバシーポリシー</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.9">
+      <b style="color:var(--text)">データソースについて</b><br>
+      本サービスは東京都議会公式会議録検索システム（record.gikai.metro.tokyo.lg.jp）へのリンクを提供します。発言データは東京都議会が直接管理・提供する公式情報です。<br><br>
+      <b style="color:var(--text)">政治的中立性</b><br>
+      特定の政党・議員・政治的立場を支持・批判する目的はありません。全会派を均等に掲載しています。<br><br>
+      <b style="color:var(--text)">広告について</b><br>
+      Google AdSense広告を利用しています。<a href="https://adssettings.google.com/" target="_blank" style="color:var(--accent)">広告設定</a>からパーソナライズ広告を無効にできます。<br><br>
+      <b style="color:var(--text)">非政府組織の明示</b><br>
+      本サービスは東京都・東京都議会・政党とは一切関係のない民間サービスです。
+    </div>
+    <div style="margin-top:16px;text-align:right">
+      <button onclick="document.getElementById('discModal').style.display='none'" style="background:var(--accent);color:var(--bg);border:none;padding:8px 20px;border-radius:4px;cursor:pointer;font-weight:600">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 みんなのマップ — 東京都議会マップ</p>
+  <div style="margin-top:6px">
+    <a href="../index.html">政治家マップ</a>
+    <a href="../about.html">サービスについて</a>
+    <a href="../privacy.html">プライバシー</a>
+    <a href="https://www.record.gikai.metro.tokyo.lg.jp/" target="_blank">東京都議会公式</a>
+  </div>
+</footer>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━
+// 東京都議会 検索URL生成
+// ━━━━━━━━━━━━━━━━━━
+const BASE = 'https://www.record.gikai.metro.tokyo.lg.jp/100000';
+
+const PARTY_COLORS = {
+  '都民ファーストの会':'#00a0e9','自由民主党':'#e05050',
+  '立憲民主党':'#4f7fc9','公明党':'#5ea87a',
+  '日本維新の会':'#c9a14f','日本共産党':'#c94f4f',
+  '東京生活者ネットワーク':'#b07ec9','無所属':'#7a7870',
+};
+function pColor(p=''){for(const[k,v]of Object.entries(PARTY_COLORS))if(p.includes(k))return v;return '#7a7870';}
+
+// 注目議員リスト
+const MEMBERS = [
+  {name:'小池　百合子', party:'無所属', role:'東京都知事'},
+  {name:'都議　太郎', party:'都民ファーストの会', role:'議長'},
+  {name:'内山　真吾', party:'都民ファーストの会', role:'都議会議員'},
+  {name:'中村　ひろし', party:'立憲民主党', role:'都議会議員'},
+  {name:'米川　大二郎', party:'立憲民主党', role:'都議会議員'},
+  {name:'田村　利光', party:'自由民主党', role:'都議会議員'},
+  {name:'清水　やすこ', party:'公明党', role:'都議会議員'},
+  {name:'藤田　りょうこ', party:'日本共産党', role:'都議会議員'},
+];
+
+// 注目キーワード
+const KEYWORDS = [
+  {kw:'築地市場', icon:'🐟'},
+  {kw:'少子化対策', icon:'👶'},
+  {kw:'予算', icon:'💰'},
+  {kw:'オリンピック', icon:'🏅'},
+  {kw:'待機児童', icon:'🏫'},
+  {kw:'防災', icon:'🚨'},
+  {kw:'再生可能エネルギー', icon:'☀️'},
+  {kw:'デジタル化', icon:'💻'},
+  {kw:'高齢者', icon:'👴'},
+  {kw:'交通インフラ', icon:'🚇'},
+];
+
+// 最近の会議録
+const RECENT_MEETINGS = [
+  {name:'第４回定例会（速報版）', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=1&TermStart=2025-12-09&TermEnd=2025-12-17`},
+  {name:'第３回定例会', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=1&TermStart=2025-09-24&TermEnd=2025-10-09`},
+  {name:'第２回定例会', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=1&TermStart=2025-06-02&TermEnd=2025-06-06`},
+  {name:'第１回定例会', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=1&TermStart=2025-02-19&TermEnd=2025-03-28`},
+  {name:'予算特別委員会', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=26&TermStart=2025-01-01&TermEnd=2025-12-31`},
+  {name:'総務委員会', year:'令和7年', url:`${BASE}?Template=list&QueryType=New&Cabinet=4&TermStart=2025-01-01&TermEnd=2025-12-31`},
+];
+
+// ━━━━━━━━━━━━━━━━━━
+// INIT
+// ━━━━━━━━━━━━━━━━━━
+function init(){
+  // サイドバー：議員リスト
+  document.getElementById('memberList').innerHTML = MEMBERS.map(m=>{
+    const c = pColor(m.party);
+    const ch = m.name.replace(/[　\s]/g,'')[0]||'?';
+    return `<div class="mem-item" onclick="searchByMember('${m.name}')">
+      <div class="av" style="border-color:${c};color:${c}">${ch}</div>
+      <div style="flex:1;min-width:0">
+        <div class="mem-name">${m.name}</div>
+        <div class="mem-party" style="display:flex;align-items:center;gap:3px">
+          <div class="pdot" style="background:${c}"></div>${m.party}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // サイドバー：キーワード
+  document.getElementById('kwList').innerHTML = KEYWORDS.map(k=>
+    `<div class="mem-item" onclick="searchByKw('${k.kw}')">
+      <span style="font-size:16px">${k.icon}</span>
+      <span style="font-size:12px;color:var(--text)">${k.kw}</span>
+    </div>`
+  ).join('');
+
+  // 最近の会議録
+  document.getElementById('recentMeetings').innerHTML = RECENT_MEETINGS.map(m=>
+    `<a href="${m.url}" target="_blank" class="meeting-card">
+      <div class="meeting-name">${m.name}</div>
+      <div class="meeting-date">${m.year}</div>
+      <span class="meeting-arrow">会議録を開く ↗</span>
+    </a>`
+  ).join('');
+
+  // トピックカード
+  const topics = [
+    {title:'築地市場・豊洲', desc:'移転問題から現在の活用計画まで', kw:'築地'},
+    {title:'少子化・子育て支援', desc:'待機児童・保育所・児童手当など', kw:'少子化'},
+    {title:'防災・首都直下地震', desc:'避難計画・インフラ整備・BCP', kw:'防災'},
+    {title:'2040年東京の未来', desc:'人口減少・高齢化・まちづくり', kw:'2040'},
+  ];
+  document.getElementById('topicCards').innerHTML = topics.map((t,i)=>
+    `<div class="qcard" style="animation-delay:${i*0.07}s;cursor:pointer" onclick="searchByKw('${t.kw}')">
+      <div class="qcard-header">
+        <div class="qcard-name">${t.title}</div>
+      </div>
+      <div class="qcard-text" style="font-size:12px;color:var(--muted)">${t.desc}</div>
+      <div class="qcard-footer">
+        <span style="font-size:10px;color:var(--muted)">クリックで検索</span>
+        <span style="font-size:10px;color:var(--accent)">→ 東京都議会公式サイトへ</span>
+      </div>
+    </div>`
+  ).join('');
+
+  initConsent();
+}
+
+// ━━━━━━━━━━━━━━━━━━
+// SEARCH FUNCTIONS
+// ━━━━━━━━━━━━━━━━━━
+function setTab(tab, el){
+  ['keyword','speaker','meeting','recent'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = t===tab?'':'none';
+  });
+  document.querySelectorAll('.stab').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function doSearch(){
+  const kw = document.getElementById('kwInp').value.trim();
+  const spk = document.getElementById('kwSpkInp').value.trim();
+  if(!kw && !spk){ alert('キーワードまたは議員名を入力してください'); return; }
+
+  const params = new URLSearchParams({Template: 'search-phrase'});
+  if(kw) params.set('Query', kw);
+
+  // 東京都議会公式検索ページへ
+  const url = `${BASE}?${params.toString()}`;
+  window.open(url, '_blank');
+}
+
+function doSpeakerSearch(){
+  const spk = document.getElementById('spkInp').value.trim();
+  if(!spk){ alert('議員名を入力してください'); return; }
+  const url = `${BASE}?Template=search-speaker&SpeakerName=${encodeURIComponent(spk)}`;
+  window.open(url, '_blank');
+}
+
+function doMeetingSearch(){
+  const meeting = document.getElementById('meetingSelect').value;
+  if(!meeting){ alert('会議名を選んでください'); return; }
+  const url = `${BASE}?Template=search-document&DocumentName=${encodeURIComponent(meeting)}`;
+  window.open(url, '_blank');
+}
+
+function searchByMember(name){
+  const url = `${BASE}?Template=search-speaker&SpeakerName=${encodeURIComponent(name.replace(/[　\s]/g,''))}`;
+  window.open(url, '_blank');
+}
+
+function searchByKw(kw){
+  document.getElementById('kwInp').value = kw;
+  setTab('keyword', document.querySelector('.stab'));
+  document.querySelector('.stab').classList.add('active');
+  const url = `${BASE}?Template=search-phrase&Query=${encodeURIComponent(kw)}`;
+  window.open(url, '_blank');
+}
+
+// ━━━━━━━━━━━━━━━━━━
+// CONSENT
+// ━━━━━━━━━━━━━━━━━━
+function acceptConsent(){ localStorage.setItem('consent_tokyo','accepted'); document.getElementById('consentBanner').style.display='none'; }
+function rejectConsent(){ localStorage.setItem('consent_tokyo','rejected'); document.getElementById('consentBanner').style.display='none'; }
+function initConsent(){ if(localStorage.getItem('consent_tokyo')) document.getElementById('consentBanner').style.display='none'; }
+
+init();
+</script>
+</body>
+</html>
