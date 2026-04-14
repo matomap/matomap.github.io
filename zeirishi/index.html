@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>税理士マップ — 全国の税理士・税理士法人を検索 | まとマップ</title>
+<meta name="description" content="全国の税理士・税理士法人を都道府県・専門分野で検索できる無料サービス。日本税理士会連合会（日税連）の公式情報をもとに、税理士検索ページへ直接リンク。確定申告・相続税・法人税・記帳代行など専門分野別に検索可能。">
+<meta name="keywords" content="税理士,税理士法人,検索,都道府県,確定申告,相続税,法人税,記帳代行,日税連,無料相談,節税">
+<link rel="canonical" href="https://matomap.github.io/zeirishi/">
+<meta property="og:title" content="税理士マップ — 全国の税理士・税理士法人を検索">
+<meta property="og:description" content="都道府県・専門分野で税理士を検索。日税連公式情報へ直接リンク。">
+<meta property="og:url" content="https://matomap.github.io/zeirishi/">
+<meta property="og:type" content="website">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"税理士マップ","url":"https://matomap.github.io/zeirishi/","description":"全国の税理士・税理士法人を検索できる無料サービス","inLanguage":"ja"}
+</script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap');
+:root{--bg:#0d0d0f;--surface:#141418;--surface2:#1c1c22;--border:#2a2a35;--accent:#5ea87a;--accent2:#c8a96e;--text:#e8e6e0;--muted:#7a7870;--blue:#7eb8c9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:100;background:rgba(13,13,15,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:56px;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.back{font-size:11px;color:var(--muted);text-decoration:none}.back:hover{color:var(--accent)}
+.logo{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:700;color:var(--accent)}
+.disclaimer-top{background:rgba(94,168,122,.06);border:1px solid rgba(94,168,122,.25);border-left:3px solid var(--accent);padding:14px 18px}
+.disclaimer-top p{font-size:11px;color:var(--muted);line-height:1.9}
+.disclaimer-top strong{color:var(--accent)}
+.hero{background:linear-gradient(135deg,#0d1a10 0%,#0d0d0f 100%);border-bottom:1px solid var(--border);padding:28px 20px}
+h1{font-family:'Noto Serif JP',serif;font-size:24px;font-weight:700;color:var(--text);margin:10px 0 8px}
+.hero-desc{font-size:13px;color:var(--muted);line-height:1.9;max-width:640px}
+.search-area{background:var(--surface2);border-bottom:1px solid var(--border);padding:14px 20px}
+.search-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end}
+.inp-g{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
+.inp-label{font-size:10px;color:var(--muted)}
+select,input{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 12px;font-family:'Noto Sans JP',sans-serif;font-size:13px;border-radius:4px;outline:none;width:100%}
+select:focus,input:focus{border-color:var(--accent)}
+input::placeholder{color:var(--muted)}
+.btn{background:var(--accent);color:var(--bg);border:none;padding:9px 20px;font-size:13px;font-weight:600;border-radius:4px;cursor:pointer;white-space:nowrap;transition:opacity .2s}
+.btn:hover{opacity:.84}
+.hint{font-size:10px;color:var(--muted);margin-top:6px}
+.section{padding:20px;max-width:1100px;margin:0 auto}
+.sec-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.portal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:28px}
+.portal-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;text-decoration:none;transition:border-color .2s,background .15s;display:block}
+.portal-card:hover{border-color:var(--accent);background:var(--surface2)}
+.pc-icon{font-size:28px;margin-bottom:8px}
+.pc-title{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+.pc-desc{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:8px}
+.pc-source{font-size:10px;color:var(--blue)}
+.pc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.pc-tag{font-size:9px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:2px 7px;border-radius:20px}
+.field-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.field-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px;text-align:center;cursor:pointer;transition:border-color .2s}
+.field-card:hover{border-color:var(--accent)}
+.field-icon{font-size:22px;margin-bottom:5px}
+.field-name{font-size:12px;color:var(--text);font-weight:500}
+.field-desc{font-size:10px;color:var(--muted);margin-top:3px}
+.terms-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin:20px 0}
+.terms-box h3{font-family:'Noto Serif JP',serif;font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.terms-box p{font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:8px}
+.terms-box strong{color:var(--text)}
+.pref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px}
+.pref-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:9px;text-align:center;text-decoration:none;transition:border-color .2s;display:block}
+.pref-card:hover{border-color:var(--accent)}
+.pref-name{font-size:12px;color:var(--text)}
+.pref-link{font-size:10px;color:var(--muted)}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:20px;text-align:center;margin-top:20px}
+footer a{color:var(--accent2);text-decoration:none;margin:0 8px;font-size:11px}
+footer p{font-size:11px;color:var(--muted);margin-bottom:6px}
+</style>
+</head>
+<body>
+<header>
+  <a href="../" class="back">← まとマップTOP</a>
+  <div class="logo">📊 税理士マップ</div>
+  <div style="font-size:10px;color:var(--muted)">データ：日税連・各税理士会公式</div>
+</header>
+
+<div class="disclaimer-top">
+  <p>
+    <strong>【重要】本サービスについて</strong>　
+    税理士マップは、日本税理士会連合会（日税連）・各税理士会等の<strong>公式機関が公開する情報へのリンクを提供する</strong>情報ポータルです。
+    特定の税理士・税理士法人を推薦・批判・誹謗中傷する意図は一切ありません。
+    掲載情報は参考目的のみであり、税務アドバイスではありません。税務については必ず資格を持つ税理士にご相談ください。
+    本サービスは日本税理士会連合会・政府機関とは一切関係のない民間サービスです。
+  </p>
+</div>
+
+<div class="hero">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+    <span style="background:rgba(94,168,122,.15);color:var(--accent);border:1px solid rgba(94,168,122,.3);font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600">📊 税理士マップ</span>
+    <span style="font-size:10px;color:var(--muted)">データソース：日本税理士会連合会（日税連）・各税理士会公式</span>
+  </div>
+  <h1>全国の税理士・税理士法人を検索</h1>
+  <p class="hero-desc">都道府県・専門分野から税理士・税理士法人を検索できます。日本税理士会連合会（日税連）の公式税理士検索へ直接リンクします。確定申告・相続税・法人税・記帳代行・国際税務など専門分野別に検索可能です。</p>
+</div>
+
+<div class="search-area">
+  <div class="search-row">
+    <div class="inp-g">
+      <span class="inp-label">REGION — 都道府県</span>
+      <select id="prefSel">
+        <option value="">全国（すべて）</option>
+        <option value="北海道">北海道</option><option value="青森県">青森県</option><option value="岩手県">岩手県</option>
+        <option value="宮城県">宮城県</option><option value="秋田県">秋田県</option><option value="山形県">山形県</option>
+        <option value="福島県">福島県</option><option value="茨城県">茨城県</option><option value="栃木県">栃木県</option>
+        <option value="群馬県">群馬県</option><option value="埼玉県">埼玉県</option><option value="千葉県">千葉県</option>
+        <option value="東京都">東京都</option><option value="神奈川県">神奈川県</option><option value="新潟県">新潟県</option>
+        <option value="富山県">富山県</option><option value="石川県">石川県</option><option value="福井県">福井県</option>
+        <option value="山梨県">山梨県</option><option value="長野県">長野県</option><option value="岐阜県">岐阜県</option>
+        <option value="静岡県">静岡県</option><option value="愛知県">愛知県</option><option value="三重県">三重県</option>
+        <option value="滋賀県">滋賀県</option><option value="京都府">京都府</option><option value="大阪府">大阪府</option>
+        <option value="兵庫県">兵庫県</option><option value="奈良県">奈良県</option><option value="和歌山県">和歌山県</option>
+        <option value="鳥取県">鳥取県</option><option value="島根県">島根県</option><option value="岡山県">岡山県</option>
+        <option value="広島県">広島県</option><option value="山口県">山口県</option><option value="徳島県">徳島県</option>
+        <option value="香川県">香川県</option><option value="愛媛県">愛媛県</option><option value="高知県">高知県</option>
+        <option value="福岡県">福岡県</option><option value="佐賀県">佐賀県</option><option value="長崎県">長崎県</option>
+        <option value="熊本県">熊本県</option><option value="大分県">大分県</option><option value="宮崎県">宮崎県</option>
+        <option value="鹿児島県">鹿児島県</option><option value="沖縄県">沖縄県</option>
+      </select>
+    </div>
+    <div class="inp-g">
+      <span class="inp-label">FIELD — 専門分野</span>
+      <select id="fieldSel">
+        <option value="">すべての分野</option>
+        <option value="確定申告">確定申告・個人税務</option>
+        <option value="法人税">法人税・会社設立</option>
+        <option value="相続税">相続税・贈与税</option>
+        <option value="記帳代行">記帳代行・経理</option>
+        <option value="国際税務">国際税務・海外取引</option>
+        <option value="不動産">不動産税務</option>
+        <option value="医療">医療・社会福祉</option>
+        <option value="農業">農業・農地</option>
+      </select>
+    </div>
+    <div class="inp-g" style="flex:2">
+      <span class="inp-label">KEYWORD — キーワード</span>
+      <input id="kwInp" placeholder="例：渋谷　初回無料相談　クラウド会計対応" onkeydown="if(event.key==='Enter')doSearch()">
+    </div>
+    <button class="btn" onclick="doSearch()">税理士を検索</button>
+  </div>
+  <div class="hint">💡 検索すると日税連公式の税理士検索が新しいタブで開きます</div>
+</div>
+
+<div class="section">
+  <div class="sec-title">公式税理士検索・相談窓口</div>
+  <div class="portal-grid">
+    <a href="https://www.nichizeiren.or.jp/taxpayer/consultation/" target="_blank" class="portal-card">
+      <div class="pc-icon">📊</div>
+      <div class="pc-title">日税連 税理士検索・相談</div>
+      <div class="pc-desc">日本税理士会連合会（日税連）が運営する公式ページ。税理士の検索と税務相談窓口を案内しています。</div>
+      <div class="pc-source">nichizeiren.or.jp ↗（日税連公式）</div>
+      <div class="pc-tags"><span class="pc-tag">全国対応</span><span class="pc-tag">日税連公式</span></div>
+    </a>
+    <a href="https://www.tokyozeirishikai.or.jp/general/soudan/" target="_blank" class="portal-card">
+      <div class="pc-icon">🗼</div>
+      <div class="pc-title">東京税理士会 税務相談</div>
+      <div class="pc-desc">東京税理士会が運営する税務相談センター。相続・確定申告・法人税など専門の税理士に無料で相談できます。</div>
+      <div class="pc-source">tokyozeirishikai.or.jp ↗（東京税理士会公式）</div>
+      <div class="pc-tags"><span class="pc-tag">東京</span><span class="pc-tag">無料相談</span></div>
+    </a>
+    <a href="https://www.nta.go.jp/taxes/shiraberu/taxanswer/index2.htm" target="_blank" class="portal-card">
+      <div class="pc-icon">🏛</div>
+      <div class="pc-title">国税庁 タックスアンサー</div>
+      <div class="pc-desc">国税庁が運営する税務Q&Aサービス。確定申告・相続税・法人税など税金の基本情報を調べられます。</div>
+      <div class="pc-source">nta.go.jp ↗（国税庁公式）</div>
+      <div class="pc-tags"><span class="pc-tag">国税庁</span><span class="pc-tag">税務Q&A</span></div>
+    </a>
+    <a href="https://www.e-tax.nta.go.jp/" target="_blank" class="portal-card">
+      <div class="pc-icon">💻</div>
+      <div class="pc-title">e-Tax（国税電子申告）</div>
+      <div class="pc-desc">国税庁の電子申告システム。確定申告・法人税申告などをオンラインで行えます。</div>
+      <div class="pc-source">e-tax.nta.go.jp ↗（国税庁公式）</div>
+      <div class="pc-tags"><span class="pc-tag">確定申告</span><span class="pc-tag">法人税</span><span class="pc-tag">オンライン</span></div>
+    </a>
+  </div>
+
+  <div class="sec-title">専門分野から探す</div>
+  <div class="field-grid">
+    <div class="field-card" onclick="searchField('確定申告')"><div class="field-icon">📝</div><div class="field-name">確定申告</div><div class="field-desc">個人・フリーランス</div></div>
+    <div class="field-card" onclick="searchField('法人税')"><div class="field-icon">🏢</div><div class="field-name">法人税・会社</div><div class="field-desc">決算・節税対策</div></div>
+    <div class="field-card" onclick="searchField('相続税')"><div class="field-icon">📜</div><div class="field-name">相続税</div><div class="field-desc">遺産・贈与・節税</div></div>
+    <div class="field-card" onclick="searchField('記帳代行')"><div class="field-icon">📒</div><div class="field-name">記帳代行</div><div class="field-desc">経理・会計代行</div></div>
+    <div class="field-card" onclick="searchField('国際税務')"><div class="field-icon">🌏</div><div class="field-name">国際税務</div><div class="field-desc">海外取引・駐在</div></div>
+    <div class="field-card" onclick="searchField('不動産')"><div class="field-icon">🏠</div><div class="field-name">不動産税務</div><div class="field-desc">売却・賃貸収入</div></div>
+    <div class="field-card" onclick="searchField('医療')"><div class="field-icon">🏥</div><div class="field-name">医療・クリニック</div><div class="field-desc">開業医・病院</div></div>
+    <div class="field-card" onclick="searchField('起業')"><div class="field-icon">🚀</div><div class="field-name">起業・創業</div><div class="field-desc">会社設立・融資</div></div>
+  </div>
+
+  <!-- 都道府県別 -->
+  <div class="sec-title" style="margin-top:24px">都道府県別の税理士を探す</div>
+  <div class="pref-grid" id="prefGrid"></div>
+
+  <!-- 利用規約 -->
+  <div class="terms-box" style="margin-top:28px">
+    <h3>📋 利用規約・免責事項・中立性について</h3>
+    <p><strong>1. 本サービスの目的と中立性</strong><br>
+    税理士マップは、日本税理士会連合会（日税連）・各税理士会等の<strong>公式機関が公開する情報へのリンクを提供する</strong>情報ポータルサービスです。特定の税理士・税理士法人を推薦・優遇・批判・誹謗中傷する意図は一切ありません。</p>
+    <p><strong>2. 税務アドバイスの否定</strong><br>
+    本サービスの情報は<strong>参考目的のみ</strong>であり、税務アドバイスを構成するものではありません。税務問題については必ず資格を持つ税理士にご相談ください。</p>
+    <p><strong>3. 非公的機関の明示</strong><br>
+    本サービスは<strong>日本税理士会連合会・国税庁・政府機関とは一切関係のない</strong>、独立した個人が運営する民間情報ポータルです。</p>
+    <p><strong>4. 免責</strong><br>
+    本サービスの情報を利用した結果生じた損害について、運営者は一切の責任を負いかねます。</p>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 まとマップ — 税理士マップ（民間情報ポータル・日税連とは無関係）</p>
+  <a href="../">まとマップTOP</a>
+  <a href="https://www.nichizeiren.or.jp/taxpayer/consultation/" target="_blank">日税連 税理士検索 ↗</a>
+  <a href="https://www.nta.go.jp/" target="_blank">国税庁 ↗</a>
+</footer>
+
+<script>
+const PREFS = ['北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県','茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県','新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県','静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県','奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県','徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県','熊本県','大分県','宮崎県','鹿児島県','沖縄県'];
+document.getElementById('prefGrid').innerHTML = PREFS.map(p=>`
+  <a href="https://www.nichizeiren.or.jp/taxpayer/consultation/?pref=${encodeURIComponent(p)}" target="_blank" class="pref-card">
+    <div class="pref-name">${p}</div>
+    <div class="pref-link">税理士を探す ↗</div>
+  </a>`).join('');
+
+function searchField(f){
+  document.getElementById('fieldSel').value=f;
+  doSearch();
+}
+function doSearch(){
+  const pref=document.getElementById('prefSel').value;
+  const field=document.getElementById('fieldSel').value;
+  const kw=document.getElementById('kwInp').value.trim();
+  const url=`https://www.nichizeiren.or.jp/taxpayer/consultation/?pref=${encodeURIComponent(pref)}&field=${encodeURIComponent(field)}&q=${encodeURIComponent(kw)}`;
+  window.open(url,'_blank');
+}
+</script>
+</body>
+</html>
